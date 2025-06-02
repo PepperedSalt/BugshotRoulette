@@ -3,7 +3,7 @@
 * June 3, 2025
 * Submission for ICS3U culminating javascript project - Bugshot Roulette */
 
-window.addEventListener('load', function () {
+window.addEventListener('load', function () { // waits for the window & game assets to load before running the code
     // getting variables for canvas and context
     const canvas = document.getElementById('canvas1');
     const ctx = canvas.getContext('2d');
