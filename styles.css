@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+
+#canvas1 {
+    border: 5px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#heart {
+    display: none;
+}
+
+#fragileHeart {
+    display: none;
+}
+
+#dealerIdle {
+    display: none;
+}
+
+#playerIdle {
+    display: none;
+}
+
+#itemBlank {
+    display: none;
+}
+
+#itemGrid {
+    display: none;
+}
+
+#gun {
+    display: none;
+}
+
+#heldGun {
+    display: none;
+}
+
+#greyBug {
+    display: none;
+}
+
+#redBug {
+    display: none;
+}
+
+#liveBullet {
+    display: none;
+}
+
+#blankBullet {
+    display: none;
+}
+
+#greyBugDown {
+    display: none;
+}
+
+#redBugDown {
+    display: none;
+}
+
+#loadBulletsButton {
+    display: none;
+}
+
+#bandaid {
+    display: none;
+}
+
+#magnify {
+    display: none;
+}
+
+#handcuffs {
+    display: none;
+}
+
+#golden {
+    display: none;
+}
+
+#start {
+    display: none;
+}
+
+#instructions {
+    display: none;
+}
