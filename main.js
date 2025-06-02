@@ -1,3 +1,8 @@
+/*
+* Frank Zheng
+* June 3, 2025
+* Submission for ICS3U culminating javascript project - Bugshot Roulette */
+
 window.addEventListener('load', function () {
     // getting variables for canvas and context
     const canvas = document.getElementById('canvas1');
