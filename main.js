@@ -921,7 +921,8 @@ window.addEventListener('load', function () { // waits for the window & game ass
                     dealerLives[lastIndex] = 0; // removes a life from the array (set to element 0)
                 }
             }
-            // checks the turn
+            // checks the turn and lives
+            checkLives();
             checkTurn();
         }
 
@@ -937,14 +938,13 @@ window.addEventListener('load', function () { // waits for the window & game ass
                     playerLives[lastIndex] = 0; // removes a life from the array (set to element 0)
                 }
                 turn++; // only switch the turn if a live is fired, if a blank is fired, the user RETAINS their turn
-                // checks the turn
+                // checks the turn and lives
+                checkLives();
                 checkTurn();
             }
         }
 
         clickedItem = null; // resets clickedItem so gun does not re-fire
-
-        checkLives(); // check lives
 
         doubleDamage = false; // resets double damage flag to false
     }
@@ -957,11 +957,7 @@ window.addEventListener('load', function () { // waits for the window & game ass
         dealerUsedBandaid = false; // resets dealer bandaid powerup
         playerUsedBandaid = false; // resets player bandaid powerup
 
-        waitFor(() => !requiresBullets && crawlingBullets.length === 0, () => { // waits for the gun to become loaded and bullets to all be animated before proceeding with turn
-            if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
-                return; // exits the function
-            }
-
+        waitFor(() => (!requiresBullets && crawlingBullets.length === 0 && !showLevelTransition), () => { // waits for the gun to become loaded, level to be done animating, and bullets to all be animated before proceeding with turn
             if (skipDealerTurns > 0 && turn % 2 === 0) { // if the dealer's turn is being skipped and if it is the dealer's turn
                 skipDealerTurns--; // decrements the skip turns counter
                 turn++; // increments the turn to switch to the player
@@ -988,19 +984,12 @@ window.addEventListener('load', function () { // waits for the window & game ass
 
     /** defines function to handle dealer shooting logic */
     function dealerShoot() {
-        if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
-            return; // exits the function
-        }
-
         // begins hand glide to gun
         dealerTargetX = 450;
         dealerTargetY = 300;
         moveDone = false;
         // [waits here until hand glide is done]
         waitFor(() => moveDone, () => {
-            if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
-                return; // exits the function
-            }
             let firedBullet = bullets.shift(); // gets the bullet to be fired
             let lastIndex; // variable to later store the last index of the lives array
             let bugImage = greyBug; // default bullet image is greyBug (blank round)
