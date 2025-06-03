@@ -570,6 +570,7 @@ window.addEventListener('load', function () { // waits for the window & game ass
         levelTransitionProgress += 0.03; // increases the level transition progress by 0.03 each frame
         if (levelTransitionProgress > 2) { // if the level transition progress is greater than 2 - a little off the screen to complete the animation
             showLevelTransition = false; // sets the showLevelTransition flag to false to stop the animation
+            turn = 1; // resets the turn to 1 for the next level
             levelTransitionProgress = 0; // resets the level transition progress to 0 for the next level transition
             return;
         }
@@ -633,12 +634,12 @@ window.addEventListener('load', function () { // waits for the window & game ass
     function waitFor(condition, callback) {
         function check() {
             if (condition()) { // checks condition, if done, check is done
-                callback(); // wait has completed, run code
+                callback(); // wait has , run code
             } else { // checks condition, if not done, check needs to keep running
                 requestAnimationFrame(check); // keep checking by requesting another frame
             }
         }
-        check(); // begins check
+        check(); // begins checkcompleted
     }
 
     /**Gets the last non-zero element of an array*/
@@ -948,9 +949,9 @@ window.addEventListener('load', function () { // waits for the window & game ass
         usedGolden = ""; // resets golden powerup
         dealerUsedBandaid = false; // resets dealer bandaid powerup
         playerUsedBandaid = false; // resets player bandaid powerup
-
+        
         waitFor(() => !requiresBullets && crawlingBullets.length === 0, () => { // waits for the gun to become loaded and bullets to all be animated before proceeding with turn
-            if (skipDealerTurns > 0) { // if the dealer's turn is being skipped
+            if (skipDealerTurns > 0 && turn % 2 === 0) { // if the dealer's turn is being skipped and if it is the dealer's turn
                 skipDealerTurns--; // decrements the skip turns counter
                 turn++; // increments the turn to switch to the player
                 return; // exits the function
@@ -976,6 +977,10 @@ window.addEventListener('load', function () { // waits for the window & game ass
 
     /** defines function to handle dealer shooting logic */
     function dealerShoot() {
+        if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
+            return; // exits the function
+        }
+
         // begins hand glide to gun
         dealerTargetX = 450;
         dealerTargetY = 300;
@@ -1382,9 +1387,9 @@ window.addEventListener('load', function () { // waits for the window & game ass
             drawHitboxItem(hitboxes[8], hitboxes[8].image); // drawing start button
             ctx.drawImage(instructions, 50, 350); // draws the instructions button
 
-            drawArm(mouseX, mouseY);
             drawDealerArm(dealerHandX, dealerHandY);
-
+            drawArm(mouseX, mouseY);
+            
             if (hoveredItem === "instructionsButton") { // if the instructions button is hovered
                 rect(50, 225, 700, 350, "rgb(185, 185, 185)"); // draws a grey rectangle for instructions
 
