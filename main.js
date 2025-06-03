@@ -1,7 +1,9 @@
 /*
 * Frank Zheng
 * June 3, 2025
-* Submission for ICS3U culminating javascript project - Bugshot Roulette */
+* Submission for ICS3U culminating javascript project - Bugshot Roulette
+* This game is a simple 2D game where the player and dealer take turns attacking each other with a cup of coffee, which happens to fire bugs. 
+* Game Inspired by "Russian Roulette" and steam game "Buckshot Roulette"  - instructions provided in-game */
 
 window.addEventListener('load', function () { // waits for the window & game assets to load before running the code
     // getting variables for canvas and context
@@ -582,8 +584,8 @@ window.addEventListener('load', function () { // waits for the window & game ass
         const baseY = 240;
 
         // jiggle effect: left and right sides move at different rates
-        const leftOffset = -rectWidth + rectWidth * levelTransitionProgress + Math.sin(Date.now() / 120) * 10; // performs sinusoidal calculations to create a wave-like effect on the left side of the rectangle - sourced from github
-        const rightOffset = Math.min(rectWidth * levelTransitionProgress + Math.cos(Date.now() / 180) * 10, rectWidth); // performs sinusoidal calculations to create a wave-like effect on the right side of the rectangle - sourced from github
+        const leftOffset = -rectWidth + rectWidth * levelTransitionProgress + Math.sin(Date.now() / 120) * 10; // performs sinusoidal calculations to create a wave-like effect on the left side of the rectangle - https://joshondesign.com/p/books/canvasdeepdive/chapter05.html
+        const rightOffset = Math.min(rectWidth * levelTransitionProgress + Math.cos(Date.now() / 180) * 10, rectWidth); // performs sinusoidal calculations to create a wave-like effect on the right side of the rectangle - https://joshondesign.com/p/books/canvasdeepdive/chapter05.html
 
         // drawing the level transition rectangle
         ctx.save();
@@ -617,7 +619,7 @@ window.addEventListener('load', function () { // waits for the window & game ass
     // Utility functions
 
     /**
-    * defines function to shuffle an array using the Fisher-Yates algorithm
+    * defines function to shuffle an array using the Fisher-Yates algorithm - https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     * @param array - the array to be shuffled
     */
     function shuffle(array) {
@@ -686,6 +688,11 @@ window.addEventListener('load', function () { // waits for the window & game ass
                 gameMessage = "Powerup: " + playerPowerups[0].description; // sets the game message to the description of the powerup in the player's left slot
             } else if (hoveredItem === "playerRightSlot" && playerPowerups[1] != 0) { // checks if the hovered item is the player's right slot and if there is a powerup in that slot
                 gameMessage = "Powerup: " + playerPowerups[1].description; // sets the game message to the description of the powerup in the player's right slot
+            }
+            if (hoveredItem === "dealerLeftSlot" && dealerPowerups[0] != 0) { // checks if the hovered item is the dealer's left slot and if there is a powerup in that slot
+                gameMessage = "Powerup: " + dealerPowerups[0].description; // sets the game message to the description of the powerup in the dealer's left slot
+            } else if (hoveredItem === "dealerRightSlot" && dealerPowerups[1] != 0) { // checks if the hovered item is the dealer's right slot and if there is a powerup in that slot
+                gameMessage = "Powerup: " + dealerPowerups[1].description; // sets the game message to the description of the powerup in the dealer's right slot
             }
         }
 
@@ -949,8 +956,12 @@ window.addEventListener('load', function () { // waits for the window & game ass
         usedGolden = ""; // resets golden powerup
         dealerUsedBandaid = false; // resets dealer bandaid powerup
         playerUsedBandaid = false; // resets player bandaid powerup
-        
+
         waitFor(() => !requiresBullets && crawlingBullets.length === 0, () => { // waits for the gun to become loaded and bullets to all be animated before proceeding with turn
+            if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
+                return; // exits the function
+            }
+
             if (skipDealerTurns > 0 && turn % 2 === 0) { // if the dealer's turn is being skipped and if it is the dealer's turn
                 skipDealerTurns--; // decrements the skip turns counter
                 turn++; // increments the turn to switch to the player
@@ -987,6 +998,9 @@ window.addEventListener('load', function () { // waits for the window & game ass
         moveDone = false;
         // [waits here until hand glide is done]
         waitFor(() => moveDone, () => {
+            if (showLevelTransition || showEndScreen || gameOverFlag) { // if the level transition or end screen is being shown, do not proceed with the turn
+                return; // exits the function
+            }
             let firedBullet = bullets.shift(); // gets the bullet to be fired
             let lastIndex; // variable to later store the last index of the lives array
             let bugImage = greyBug; // default bullet image is greyBug (blank round)
@@ -1389,7 +1403,7 @@ window.addEventListener('load', function () { // waits for the window & game ass
 
             drawDealerArm(dealerHandX, dealerHandY);
             drawArm(mouseX, mouseY);
-            
+
             if (hoveredItem === "instructionsButton") { // if the instructions button is hovered
                 rect(50, 225, 700, 350, "rgb(185, 185, 185)"); // draws a grey rectangle for instructions
 
