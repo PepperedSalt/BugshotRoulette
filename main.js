@@ -264,7 +264,7 @@ window.addEventListener('load', function () { // waits for the window & game ass
         // calculating the position to center the text - split by \n is explained in text() function
         const lines = endScreenMessage.split('\n');
         for (let i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], canvas.width / 2, (canvas.height / 2 - 40) + (i * 80)); // draws the endScreenMessage centered
+            ctx.fillText(lines[i], canvas.width / 2, (canvas.height / 2 - 80) + (i * 80)); // draws the endScreenMessage centered
         }
 
         ctx.restore();
@@ -744,9 +744,9 @@ window.addEventListener('load', function () { // waits for the window & game ass
         showEndScreen = true; // sets the end screen flag to true
         endScreenAlpha = 0; // resets the end screen alpha (transparency) to 0
         if (result) { // if the result is a win
-            endScreenMessage = "You win!\nCongratulations!"; // sets the end screen message to a win message
+            endScreenMessage = "You win!\nCongratulations!\nPress F5 to replay"; // sets the end screen message to a win message
         } else { // if the result is a loss
-            endScreenMessage = "You lose!\nBetter luck next time!"; // sets the end screen message to a loss message
+            endScreenMessage = "You lose!\nBetter luck next time!\nPress F5 to replay"; // sets the end screen message to a loss message
         }
     }
 
