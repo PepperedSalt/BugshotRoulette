@@ -1299,7 +1299,9 @@ window.addEventListener('load', function () { // waits for the window & game ass
             }
 
             if (clickedItem === "startButton") { // checks if the start button is clicked
-                nextLevel(); // starts the game by incrementing to level 1
+                if (currentLevel === 0) { // only if starting screen
+                    nextLevel(); // starts the game by incrementing to level 1
+                }
             }
 
             if (clickedItem === "loadBulletsButton" && btnVisible) { // checks if the button is clicked while visible
